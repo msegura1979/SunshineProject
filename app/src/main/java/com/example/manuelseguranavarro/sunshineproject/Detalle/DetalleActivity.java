@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.manuelseguranavarro.sunshineproject.R;
+import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
 
 public class DetalleActivity extends AppCompatActivity {
 //    TextView textView = (TextView)findViewById(R.id.detalle_tiempo);
@@ -55,6 +56,8 @@ public class DetalleActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
