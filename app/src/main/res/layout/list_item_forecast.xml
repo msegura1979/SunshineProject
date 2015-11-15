@@ -5,7 +5,7 @@
     android:id="@+id/item_list_forecast_textview"
     android:text="Hoy"
     android:gravity="center_horizontal"
-    android:textSize="30px"
+    android:textSize="40px"
     >
 
 </TextView>
