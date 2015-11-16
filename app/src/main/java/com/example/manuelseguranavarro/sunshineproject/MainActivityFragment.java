@@ -1,10 +1,12 @@
 package com.example.manuelseguranavarro.sunshineproject;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +33,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -64,8 +64,7 @@ public class MainActivityFragment extends Fragment {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute("49035");
+            ActualizaTiempo();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -76,24 +75,12 @@ public class MainActivityFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-
-        final String [] forecastArray ={
-                "Lunes",
-                "Martes",
-                "Miercoles",
-                "Jueves",
-                "Viernes",
-                "Sabado",
-                "Domingo"};
-
-        final List<String> weekForecast = new ArrayList<String>(Arrays.asList(forecastArray));
-
         mForecastAdapter = new ArrayAdapter<String>(
                 getActivity(),
                 R.layout.list_item_forecast,
                 R.id.item_list_forecast_textview,
-                weekForecast);
+                //Pasamos un arraylist vacio al ArrayAdapter
+                new ArrayList<String>());
 
         final View rootView =inflater.inflate(R.layout.fragment_main, container, false);
         ListView miLista = (ListView) rootView.findViewById(R.id.listview_forecast);
@@ -115,6 +102,20 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
+    //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias
+    private void ActualizaTiempo(){
+        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        //Realizamos que las preferencias se guarden por defecto o las indicadas por usuario.
+        SharedPreferences preferences = PreferenceManager .getDefaultSharedPreferences(getActivity());
+        String guardarLocalizacion = preferences.getString(getString(R.string.localizacion),getString(R.string.valor_por_defecto));
+        weatherTask.execute(guardarLocalizacion);
+    }
+    //Reescribimos onStart para que actualize la información cada vez que se inicia el fragmet
+    @Override
+    public void onStart(){
+        super.onStart();
+        ActualizaTiempo();
+    }
 
     //Metodo AsynTask para realizar la ejecución en un hilo secundario
     public class FetchWeatherTask extends AsyncTask<String, Void, String []> {
