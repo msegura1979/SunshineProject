@@ -13,14 +13,13 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.support.v7.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.example.manuelseguranavarro.sunshineproject.MainActivity;
 import com.example.manuelseguranavarro.sunshineproject.R;
 
 import java.util.List;
@@ -181,6 +180,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_localizacion_key)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_unidades_key)));
 
             /*bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));*/
@@ -226,6 +227,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
 
     /**
      * This fragment shows data and sync preferences only. It is used when the

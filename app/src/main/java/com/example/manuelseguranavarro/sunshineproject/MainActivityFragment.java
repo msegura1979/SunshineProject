@@ -107,7 +107,7 @@ public class MainActivityFragment extends Fragment {
         FetchWeatherTask weatherTask = new FetchWeatherTask();
         //Realizamos que las preferencias se guarden por defecto o las indicadas por usuario.
         SharedPreferences preferences = PreferenceManager .getDefaultSharedPreferences(getActivity());
-        String guardarLocalizacion = preferences.getString(getString(R.string.localizacion),getString(R.string.valor_por_defecto));
+        String guardarLocalizacion = preferences.getString(getString(R.string.pref_localizacion_key),getString(R.string.pref_valor_defecto));
         weatherTask.execute(guardarLocalizacion);
     }
     //Reescribimos onStart para que actualize la información cada vez que se inicia el fragmet
@@ -133,6 +133,17 @@ public class MainActivityFragment extends Fragment {
 
 
         private String formatHighLows(double high, double low) {
+            //Hacemos que se manejen los datos desde las preferencias
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String tipoUnidad = preferences.getString(getString(R.string.pref_localizacion_key),
+                    getString(R.string.pref_valor_defecto));
+
+            //Validamos el tipo de unidad que le asignamos desde preferencias
+            if (tipoUnidad.equals(getString(R.string.pref_unidad_temp_valor_imperial))){
+
+
+            }
+
             // For presentation, assume the user doesn't care about tenths of a degree.
             long roundedHigh = Math.round(high);
             long roundedLow = Math.round(low);
@@ -224,8 +235,8 @@ public class MainActivityFragment extends Fragment {
             String forecastJsonStr = null;
 
             String format = "json";
-            String units = "celsius";
-            int numDays = 7;
+            String units = "metric";
+            int numDays = 16;
 
             try {
                 // Construct the URL for the OpenWeatherMap query

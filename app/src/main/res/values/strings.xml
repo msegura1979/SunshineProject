@@ -7,6 +7,7 @@
 
     <!-- Strings related to Settings -->
 
+
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
@@ -15,8 +16,7 @@
         based on your message history
     </string>
 
-    <string name="localizacion">Localización</string>
-    <string name="valor_por_defecto">94043</string>
+
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
@@ -60,6 +60,20 @@
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
-
     <string name="pref_title_vibrate">Vibrate</string>
+
+
+    <!-- LOCACIZACION-->
+    <string name="pref_localizacion_titulo">Localización</string>
+    <string name="pref_localizacion_key">pref_localizacion_key</string>
+    <string name="pref_valor_defecto">London</string>
+
+    <!-- UNIDAD DE TEMPERATURA -->
+    <string name="pref_header_unidad_temp">Unidades de Temperatura</string>
+    <string name="pref_unidad_metric_titulo">metric</string>
+    <string name="pref_unidad_imperial_titulo">Imperial</string>
+
+    <string name="pref_unidades_key"></string>
+    <string name="pref_unidad_temp_valor_metric">Metric</string>
+    <string name="pref_unidad_temp_valor_imperial">Imperial</string>
 </resources>
