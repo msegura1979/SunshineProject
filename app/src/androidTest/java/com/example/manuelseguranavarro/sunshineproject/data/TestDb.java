@@ -43,6 +43,7 @@ public class TestDb extends AndroidTestCase {
         Note that this only tests that the Location table has the correct columns, since we
         give you the code for the weather table.  This test does not look at the
      */
+
 //    public void testCreateDb() throws Throwable {
 //        // build a HashSet of all of the table names we wish to look for
 //        // Note that there will be another table in the DB that stores the
