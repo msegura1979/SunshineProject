@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SunshineProject</string>
+    <string name="app_name">Pronosticator</string>
     <string name="action_settings">Settings</string>
     <string name="action_refresh" translatable="false">Refresh</string>
     <string name="title_activity_detalle">DetalleActivity</string>
@@ -72,8 +72,13 @@
     <string name="pref_header_unidad_temp">Unidades de Temperatura</string>
     <string name="pref_unidad_metric_titulo">metric</string>
     <string name="pref_unidad_imperial_titulo">Imperial</string>
-
     <string name="pref_unidades_key"></string>
     <string name="pref_unidad_temp_valor_metric">Metric</string>
     <string name="pref_unidad_temp_valor_imperial">Imperial</string>
+
+    <!-- ACCESO A LA LOCALIZACIÖN EN MAPA -->
+    <string name="mapa">Acceso al mapa</string>
+    <!-- COMPARTIR -->
+    <string name="action_share">Compartir</string>
+
 </resources>

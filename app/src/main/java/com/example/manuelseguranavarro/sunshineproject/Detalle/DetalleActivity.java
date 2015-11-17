@@ -2,23 +2,24 @@ package com.example.manuelseguranavarro.sunshineproject.Detalle;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.manuelseguranavarro.sunshineproject.R;
 import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
 
 public class DetalleActivity extends AppCompatActivity {
-//    TextView textView = (TextView)findViewById(R.id.detalle_tiempo);
+
+    //Log para detectar errores
+    private static final String LOG_TAG = DetalleActivityFragment.class.getSimpleName();
+    //Hashtag compartido
+    private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+    //Esta variable la convertimos en variable miembro
+    private String mForecastStr;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +32,6 @@ public class DetalleActivity extends AppCompatActivity {
         }*/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
-       /* Bundle bundle = getIntent().getExtras();
-        String datos =bundle.getString("ID");
-        textView.setText(datos);*/
-
-
 
     }
     @Override
@@ -63,30 +57,5 @@ public class DetalleActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-  /*  public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-      @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_detalle, container, false);
-
-            Intent intent = getActivity().getIntent();
-            if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
-                String detalle_extra = intent.getStringExtra(Intent.EXTRA_TEXT);
-                ((TextView)rootView.findViewById(R.id.textodetalle)).setText(detalle_extra);
-                }
-
-
-
-            return rootView;
-        }
-    }*/
 
 }
