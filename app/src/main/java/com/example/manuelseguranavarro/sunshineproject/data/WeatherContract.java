@@ -15,6 +15,7 @@
  */
 package com.example.manuelseguranavarro.sunshineproject.data;
 
+import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
 
@@ -22,6 +23,13 @@ import android.text.format.Time;
  * Defines table and column names for the weather database.
  */
 public class WeatherContract {
+
+    //Creamos las URI
+    public static final String CONTENT_AUTHORITY ="com.example.manuelseguranavarro.sunshineproject.app";
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+
+    public static final String PATH_WEATHER ="weather";
+    public static final String PATH_LOCATION ="location";
 
 
     // To make it easy to query for the exact date, we normalize all dates that go into
