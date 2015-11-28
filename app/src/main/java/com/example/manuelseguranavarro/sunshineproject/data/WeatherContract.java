@@ -16,6 +16,7 @@
 package com.example.manuelseguranavarro.sunshineproject.data;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.text.format.Time;
@@ -99,9 +100,10 @@ public class WeatherContract {
         // Degrees are meteorological degrees (e.g, 0 is north, 180 is south).  Stored as floats.
         public static final String COLUMN_DEGREES = "degrees";
 
-        public static Uri buildWeatherUri(String locationSetting){
-            return null;
+        public static Uri buildWeatherUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
         public static Uri buildWeatherLocation(String locationSetting) {
             return CONTENT_URI.buildUpon().appendPath(locationSetting).build();
         }

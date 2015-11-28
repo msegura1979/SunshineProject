@@ -16,12 +16,11 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
+import com.example.manuelseguranavarro.sunshineproject.MainActivity;
 import com.example.manuelseguranavarro.sunshineproject.R;
 
 import java.util.List;
@@ -190,16 +189,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
-           /* int id = item.getItemId();
+            int id = item.getItemId();
             if (id == android.R.id.home) {
                 //startActivity(new Intent(getActivity(), SettingsActivity.class));
-                startActivity(new Intent(getActivity().getParent(), MainActivity.class));
+                startActivity(new Intent(getActivity(), MainActivity.class));
 
                 return true;
             }
+
             return super.onOptionsItemSelected(item);
-        }*/
-            switch (item.getItemId()) {
+        }
+           /* switch (item.getItemId()) {
                 // Respond to the action bar's Up/Home button
                 case android.R.id.home:
                     Intent upIntent = NavUtils.getParentActivityIntent(this.getActivity());
@@ -219,7 +219,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                     return true;
             }
             return super.onOptionsItemSelected(item);
-        }
+        }*/
         }
 
         /**

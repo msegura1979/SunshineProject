@@ -12,6 +12,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+        <provider
+            android:authorities="com.example.manuelseguranavarro.sunshineproject"
+            android:name=".data.WeatherProvider"
+            ></provider>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -41,5 +46,6 @@
                 android:value="com.example.manuelseguranavarro.sunshineproject.MainActivity"/>
         </activity>
     </application>
+    
 
 </manifest>
