@@ -88,6 +88,7 @@ public class MainActivityFragment extends Fragment {
         return rootView;
     }
 
+
     //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias
     private void ActualizaTiempo(){
         FetchWeatherTask weatherTask = new FetchWeatherTask();
