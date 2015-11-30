@@ -115,39 +115,40 @@ public class TestDb extends AndroidTestCase {
     public void testLocationTable() {
         // First step: Get reference to writable database
         //Obtener la referencia a la base de datos  para escribir
-        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-
-        // Create ContentValues of what you want to insert
-        // (you can use the createNorthPoleLocationValues if you wish)
-        ContentValues contentValues = TestUtilities.createNorthPoleLocationValues();
-
-
-        // Insert ContentValues into database and get a row ID back
-        long locationRowId;
-        locationRowId = database.insert(WeatherContract.LocationEntry.TABLE_NAME,null,contentValues);
-
-        // Query the database and receive a Cursor back
-        assertTrue(locationRowId != -1);
-        // Move the cursor to a valid database row
-
-        Cursor cursor = database.query(WeatherContract.LocationEntry.TABLE_NAME,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null);
-        assertTrue("No retorna registros en la consulta a la localizacion", cursor.moveToFirst());
-        // Validate data in resulting Cursor with the original ContentValues
-        // (you can use the validateCurrentRecord function in TestUtilities to validate the
-        // query if you like)
-        TestUtilities.validateCurrentRecord("Fallo al validar la consulata de localización",cursor,contentValues);
-        assertFalse("la consula a retornado mas de una localización",cursor.moveToNext());
-
-        // Finally, close the cursor and database
-        cursor.close();
-        database.close();
+        insertLocation();
+//        WeatherDbHelper dbHelper = new WeatherDbHelper(mContext);
+//        SQLiteDatabase database = dbHelper.getWritableDatabase();
+//
+//        // Create ContentValues of what you want to insert
+//        // (you can use the createNorthPoleLocationValues if you wish)
+//        ContentValues contentValues = TestUtilities.createNorthPoleLocationValues();
+//
+//
+//        // Insert ContentValues into database and get a row ID back
+//        long locationRowId;
+//        locationRowId = database.insert(WeatherContract.LocationEntry.TABLE_NAME,null,contentValues);
+//
+//        // Query the database and receive a Cursor back
+//        assertTrue(locationRowId != -1);
+//        // Move the cursor to a valid database row
+//
+//        Cursor cursor = database.query(WeatherContract.LocationEntry.TABLE_NAME,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null);
+//        assertTrue("No retorna registros en la consulta a la localizacion", cursor.moveToFirst());
+//        // Validate data in resulting Cursor with the original ContentValues
+//        // (you can use the validateCurrentRecord function in TestUtilities to validate the
+//        // query if you like)
+//        TestUtilities.validateCurrentRecord("Fallo al validar la consulata de localización",cursor,contentValues);
+//        assertFalse("la consula a retornado mas de una localización",cursor.moveToNext());
+//
+//        // Finally, close the cursor and database
+//        cursor.close();
+//        database.close();
 
     }
 
