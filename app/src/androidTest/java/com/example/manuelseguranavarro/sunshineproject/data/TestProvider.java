@@ -464,7 +464,7 @@ public class TestProvider extends AndroidTestCase {
     // in your provider.  Note that this test will work with the built-in (default) provider
     // implementation, which just inserts records one-at-a-time, so really do implement the
     // BulkInsert ContentProvider function.
-    public void testBulkInsert() {
+   /* public void testBulkInsert() {
         // first, let's create a location value
         ContentValues testValues = TestUtilities.createNorthPoleLocationValues();
         Uri locationUri = mContext.getContentResolver().insert(LocationEntry.CONTENT_URI, testValues);
@@ -526,5 +526,5 @@ public class TestProvider extends AndroidTestCase {
                     cursor, bulkInsertContentValues[i]);
         }
         cursor.close();
-    }
+    }*/
 }
