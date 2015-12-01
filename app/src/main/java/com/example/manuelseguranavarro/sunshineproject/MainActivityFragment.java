@@ -91,7 +91,7 @@ public class MainActivityFragment extends Fragment {
 
     //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias
     private void ActualizaTiempo(){
-        FetchWeatherTask weatherTask = new FetchWeatherTask();
+        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity(), mForecastAdapter);
         //Realizamos que las preferencias se guarden por defecto o las indicadas por usuario.
         SharedPreferences preferences = PreferenceManager .getDefaultSharedPreferences(getActivity());
         String guardarLocalizacion = preferences.getString(getString(R.string.pref_localizacion_key),getString(R.string.pref_valor_defecto));
@@ -103,6 +103,7 @@ public class MainActivityFragment extends Fragment {
         super.onStart();
         ActualizaTiempo();
     }
+
 
 //    //Metodo AsynTask para realizar la ejecución en un hilo secundario
 //    public class FetchWeatherTask extends AsyncTask<String, Void, String []> {
