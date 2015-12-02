@@ -1,13 +1,9 @@
 package com.example.manuelseguranavarro.sunshineproject;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -56,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
    private void preferenciasDelMapa(){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+       /* SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String localizacion = preferences.getString(getString(R.string.pref_localizacion_key), getString(R.string.pref_valor_defecto));
         Uri obtenLocalizacion = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q",localizacion).build();
 
@@ -67,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else{
             Log.d(LOG_TAG, "No puede realizar la llamada a la " + localizacion + "No tienes app de mapas instalada");
-        }
+        }*/
+       String localizacion = Util.getPreferredLocation(this);
 
     }
+
 
 }

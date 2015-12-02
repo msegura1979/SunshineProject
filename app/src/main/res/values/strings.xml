@@ -63,18 +63,18 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
 
-    <!-- LOCACIZACION-->
+    <!-- LOCACLIZACION-->
     <string name="pref_localizacion_titulo">Localización</string>
     <string name="pref_localizacion_key">pref_localizacion_key</string>
-    <string name="pref_valor_defecto">London</string>
+    <string name="pref_valor_defecto">94034</string>
 
     <!-- UNIDAD DE TEMPERATURA -->
     <string name="pref_header_unidad_temp">Unidades de Temperatura</string>
-    <string name="pref_unidad_metric_titulo">metric</string>
+    <string name="pref_unidad_metric_titulo">Metric</string>
     <string name="pref_unidad_imperial_titulo">Imperial</string>
-    <string name="pref_unidades_key"></string>
-    <string name="pref_unidad_temp_valor_metric">Metric</string>
-    <string name="pref_unidad_temp_valor_imperial">Imperial</string>
+    <string name="pref_unidades_key">units</string>
+    <string name="pref_unidad_temp_valor_metric">metric</string>
+    <string name="pref_unidad_temp_valor_imperial">imperial</string>
 
     <!-- ACCESO A LA LOCALIZACIÖN EN MAPA -->
     <string name="mapa">Acceso al mapa</string>

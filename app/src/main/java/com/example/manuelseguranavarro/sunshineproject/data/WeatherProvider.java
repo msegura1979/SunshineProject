@@ -70,6 +70,7 @@ public class WeatherProvider extends ContentProvider {
 
 
     private Cursor getWeatherByLocationSetting(Uri uri, String[] projection, String sortOrder) {
+
         String locationSetting = WeatherContract.WeatherEntry.getLocationSettingFromUri(uri);
         long startDate = WeatherContract.WeatherEntry.getStartDateFromUri(uri);
 

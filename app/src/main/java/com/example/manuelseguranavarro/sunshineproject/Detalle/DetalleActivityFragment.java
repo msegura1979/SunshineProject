@@ -24,6 +24,7 @@ public class DetalleActivityFragment extends Fragment {
     private static final String LOG_TAG = DetalleActivityFragment.class.getSimpleName();
     //Hashtag compartido
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
+    private static final int DETALLE_LOADER=0;
     //Esta variable la convertimos en variable miembro
     private String mForecastStr;
     public DetalleActivityFragment() {
@@ -37,12 +38,19 @@ public class DetalleActivityFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_detalle, container, false);
 
         Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
+
+        if (intent != null) {
+            mForecastStr = intent.getDataString();
+        }
+        if (null != mForecastStr) {
+            ((TextView) rootView.findViewById(R.id.textodetalle))
+                    .setText(mForecastStr);
+        /*if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)){
             mForecastStr = intent.getStringExtra(Intent.EXTRA_TEXT);
             ((TextView)rootView.findViewById(R.id.textodetalle)).setText(mForecastStr);
 
+        }*/
         }
-
         return rootView;
     }
 
