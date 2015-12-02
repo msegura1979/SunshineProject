@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ShareActionProvider;
 
 import com.example.manuelseguranavarro.sunshineproject.R;
 import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
@@ -18,6 +19,8 @@ public class DetalleActivity extends AppCompatActivity {
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
     //Esta variable la convertimos en variable miembro
     private String mForecastStr;
+    private ShareActionProvider mShareActionProvider;
+
 
 
     @Override

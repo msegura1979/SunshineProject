@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivity;
+import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivityFragment;
 import com.example.manuelseguranavarro.sunshineproject.data.WeatherContract;
 import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherTask;
 
@@ -27,7 +29,7 @@ import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherT
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-
+    private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     public static final int FORECAST_LOADER = 0;
     private Adaptador mForecastAdapter;
 
@@ -134,6 +136,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 super.onActivityCreated(savedInstanceState);
     }
 
+    // since we read the location when we create the loader, all we need to do is restart things
+    void onLocationChanged( ) {
+        ActualizaTiempo();
+        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
+    }
     //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias
     private void ActualizaTiempo(){
         FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
@@ -144,11 +151,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         weatherTask.execute(guardarLocalizacion);
     }
     //Reescribimos onStart para que actualize la información cada vez que se inicia el fragmet
-    @Override
-    public void onStart(){
-        super.onStart();
-        ActualizaTiempo();
-    }
+//    @Override
+//    public void onStart(){
+//        super.onStart();
+//        ActualizaTiempo();
+//    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -171,6 +178,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
+
     }
 
     @Override
