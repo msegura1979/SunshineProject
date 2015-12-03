@@ -76,12 +76,28 @@ public class Adaptador extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
+
+        int viewType = getItemViewType(cursor.getPosition());
+
+        switch (viewType){
+            case VIEW_TYPE_TODAY:{
+                viewHolder.iconoView.setImageResource(Util.getArtResourceForWeatherCondition(cursor.getInt(MainActivityFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+            case VIEW_TYPE_FUTURE_DAY:{
+                viewHolder.iconoView.setImageResource(Util.getArtResourceForWeatherCondition(cursor.getInt(MainActivityFragment.COL_WEATHER_CONDITION_ID)));
+                break;
+            }
+        }
+
+
         //Lectura del tiempo con el ID del icono
         int tiempoId = cursor.getInt(MainActivityFragment.COL_WEATHER_ID);
 
         //Holder para el icono
-        ViewHolder viewHolder = (ViewHolder)view.getTag();
-        viewHolder.iconoView.setImageResource(R.drawable.ic_temperature_hdpi);
+
+        //viewHolder.iconoView.setImageResource(R.drawable.ic_temperature_hdpi);
 
         //Leemos los datos del cursor
         //Holder para el dia
