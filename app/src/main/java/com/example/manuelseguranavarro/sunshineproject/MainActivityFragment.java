@@ -27,7 +27,7 @@ import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherT
  */
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-
+    private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
     public static final int FORECAST_LOADER = 0;
     private Adaptador mForecastAdapter;
 
@@ -132,6 +132,11 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(FORECAST_LOADER, null, this);
                 super.onActivityCreated(savedInstanceState);
+    }
+    // since we read the location when we create the loader, all we need to do is restart things
+    void onLocationChanged( ) {
+        ActualizaTiempo();
+        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
     //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias

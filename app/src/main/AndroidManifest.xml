@@ -49,6 +49,8 @@
             android:exported="true"/>
 
     </application>
-    
+    <permission android:name="com.example.LICENSE_TO_KILL"
+            android:protectionLevel="dangerous"
+            android:label="Licended to Kill"></permission>
 
 </manifest>

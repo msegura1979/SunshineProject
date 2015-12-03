@@ -1,9 +1,11 @@
 package com.example.manuelseguranavarro.sunshineproject;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,6 +13,9 @@ import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity
 
 public class MainActivity extends AppCompatActivity {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private String mlocation;
+    private final String FORECASTFRAGMENT_TAG = "FFTAG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,21 +57,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
    private void preferenciasDelMapa(){
-       /* SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String localizacion = preferences.getString(getString(R.string.pref_localizacion_key), getString(R.string.pref_valor_defecto));
-        Uri obtenLocalizacion = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q",localizacion).build();
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(obtenLocalizacion);
-
-        if(intent.resolveActivity(getPackageManager())!= null){
-            startActivity(intent);
-        }else{
-            Log.d(LOG_TAG, "No puede realizar la llamada a la " + localizacion + "No tienes app de mapas instalada");
-        }*/
        String localizacion = Util.getPreferredLocation(this);
+       Uri obtenLocalizacion = Uri.parse("geo:0,0?").buildUpon().appendQueryParameter("q",localizacion).build();
+       Intent intent = new Intent(Intent.ACTION_VIEW);
+       intent.setData(obtenLocalizacion);
+
+       if(intent.resolveActivity(getPackageManager())!= null){
+           startActivity(intent);
+       }else{
+           Log.d(LOG_TAG, "No puede realizar la llamada a la " + localizacion + "No tienes app de mapas instalada");
+       }
 
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String location = Util.getPreferredLocation( this );
+        // update the location in our second pane using the fragment manager
+        if (location != null && !location.equals(mlocation)) {
+            MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
+            if ( null != ff ) {
+                ff.onLocationChanged();
+            }
+            mlocation = location;
+        }
+    }
 
 }
