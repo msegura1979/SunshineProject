@@ -118,6 +118,7 @@ public class TestProvider extends AndroidTestCase {
         This test checks to make sure that the content provider is registered correctly.
         Students: Uncomment this test to make sure you've correctly registered the WeatherProvider.
      */
+
     public void testProviderRegistry() {
         PackageManager pm = mContext.getPackageManager();
 
