@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivity;
-import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivityFragment;
 import com.example.manuelseguranavarro.sunshineproject.data.WeatherContract;
 import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherTask;
 
@@ -134,11 +132,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(FORECAST_LOADER, null, this);
                 super.onActivityCreated(savedInstanceState);
-    }
-    // since we read the location when we create the loader, all we need to do is restart things
-    void onLocationChanged( ) {
-        ActualizaTiempo();
-        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
     // since we read the location when we create the loader, all we need to do is restart things
