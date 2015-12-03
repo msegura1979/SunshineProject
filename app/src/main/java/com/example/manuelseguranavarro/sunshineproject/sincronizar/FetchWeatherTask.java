@@ -254,6 +254,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
         String units = "metric";
         int numDays = 14;
 
+        //noinspection finally
         try {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at

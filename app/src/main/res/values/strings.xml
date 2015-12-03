@@ -87,5 +87,10 @@
     <string name="tomorrow">Mañana</string>
     <string name="format_full_friendly_date"><xliff:g id="month">%1$s</xliff:g>, <xliff:g id="day">%2$s</xliff:g></string>
     <string name="format_temperature"><xliff:g id="temp">%1.0f</xliff:g>\u00B0</string>
+    <string name="format_wind_mph">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> mph<xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_wind_kmh">Viento: <xliff:g id="speed">%1$1.0f</xliff:g> mph<xliff:g id="direction">%2$s</xliff:g></string>
+    <string name="format_pressure">Presión: <xliff:g id="pressure">%1$1.0f</xliff:g> hPa</string>
+    <string name="format_humidity">Humedad: <xliff:g id="humidity">%1$1.0f</xliff:g> %%</string>
+
 
 </resources>

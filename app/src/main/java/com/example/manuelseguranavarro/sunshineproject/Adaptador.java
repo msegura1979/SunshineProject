@@ -51,30 +51,8 @@ public class Adaptador extends CursorAdapter {
         return VIEW_TYPE_COUNT;
     }
 
-    private String formatHighLows(double high, double low) {
-        boolean isMetric = Util.isMetric(mContext);
-        String highLowStr = Util.formatTemperature(high, isMetric) + "/" + Util.formatTemperature(low, isMetric);
-        return highLowStr;
-    }
-
-    /*
-        This is ported from FetchWeatherTask --- but now we go straight from the cursor to the
-        string.
-     */
-    private String convertCursorRowToUXFormat(Cursor cursor) {
-
-        // get row indices for our cursor
 
 
-
-        String highAndLow = formatHighLows(
-                cursor.getDouble(MainActivityFragment.COL_WEATHER_MAX_TEMP),
-                cursor.getDouble(MainActivityFragment.COL_WEATHER_MIN_TEMP));
-
-        return Util.formatDate(cursor.getLong(MainActivityFragment.COL_WEATHER_DATE)) +
-                " - " + cursor.getString(MainActivityFragment.COL_WEATHER_DESC) +
-                " - " + highAndLow;
-    }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -124,11 +102,11 @@ public class Adaptador extends CursorAdapter {
         //Leemos la temperatura alta desde el cursor
         double altaTemp = cursor.getDouble(MainActivityFragment.COL_WEATHER_MAX_TEMP);
 
-        viewHolder.altaTempView.setText(Util.formatTemperature(altaTemp,esMetric));
+        viewHolder.altaTempView.setText(Util.formatTemperature(context, altaTemp,esMetric));
 
         //Leemos la baja temperatura desde el cursor
         double bajaTemp = cursor.getDouble(MainActivityFragment.COL_WEATHER_MIN_TEMP);
-        viewHolder.bajaTempView.setText(Util.formatTemperature(bajaTemp,esMetric));
+        viewHolder.bajaTempView.setText(Util.formatTemperature(context,bajaTemp,esMetric));
 
 
     }

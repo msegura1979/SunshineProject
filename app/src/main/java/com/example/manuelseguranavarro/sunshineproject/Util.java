@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
-import com.example.manuelseguranavarro.sunshineproject.data.WeatherContract;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,20 +17,9 @@ public class Util {
 
     public static final String DATE_FORMAT = "yyyyMMdd";
 
-    static String formatoTemperatura(Context context, double temperatura, boolean isMetric){
 
-        double temp;
-        if(!isMetric){
-            temp = 9*temperatura/5+32;
-        }else{
-            temp = temperatura;
-        }
-        return context.getString(R.string.format_temperature, temp);
 
-    }
-    static String formatoDia(String dia){
-       // Date date = WeatherContract.
-    }
+
 
 
     public static String getPreferredLocation(Context context) {
@@ -48,20 +35,21 @@ public class Util {
                         .equals(context.getString(R.string.pref_unidad_temp_valor_metric));
     }
 
-    public static String formatTemperature(double temperature, boolean isMetric) {
+    public static String formatTemperature(Context context,double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {
             temp = 9*temperature/5+32;
         } else {
             temp = temperature;
         }
-        return String.format("%.0f", temp);
+        return context.getString(R.string.format_temperature, temp);
     }
 
     public static String formatDate(long dateInMillis) {
         Date date = new Date(dateInMillis);
         return DateFormat.getDateInstance().format(date);
     }
+
     public static String getFriendlyDayString(Context context, long dateInMillis) {
         // The day string for forecast uses the following logic:
         // For today: "Today, June 8"
@@ -122,4 +110,34 @@ public class Util {
 
 
     }
+    //Metodo para formatear la velocidad del viento
+    public static String getFormattedWind(Context context, float windSpeed, float degrees){
+        int windFormat = 0;
+        if (Util.isMetric(context)){
+            windFormat = R.string.format_wind_kmh;
+            windSpeed = .621371192237334f * windSpeed;
+        }
+
+        String direction = "Desconocido";
+        if (degrees >= 337.5 || degrees <= 22.5){
+            direction="N";
+        }else if(degrees >= 22.5 && degrees < 67.5){
+            direction="NE";
+        }else if(degrees >= 67.5 && degrees < 112.5){
+            direction="E";
+        }else if(degrees >= 112.5 && degrees < 157.5){
+            direction="SE";
+        }else if(degrees >= 157.5 && degrees < 202.5){
+            direction="S";
+        }else if(degrees >= 202.5 && degrees < 247.5){
+            direction="SW";
+        }else if(degrees >= 247.5 && degrees < 292.5){
+            direction="W";
+        }else if(degrees >= 292.5 && degrees < 22.5){
+            direction="NW";
+        }
+        return String.format(context.getString(windFormat),windSpeed,direction);
+    }
+
+
 }
