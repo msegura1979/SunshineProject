@@ -31,6 +31,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     public static final int FORECAST_LOADER = 0;
     private Adaptador mForecastAdapter;
 
+
+
     private static final String[] FORECAST_COLUMNS = {
             // In this case the id needs to be fully qualified with a table name, since
             // the content provider joins the location & weather tables in the background
@@ -184,6 +186,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+
     }
 
 

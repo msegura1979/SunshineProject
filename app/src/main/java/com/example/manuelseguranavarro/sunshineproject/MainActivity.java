@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivityFragment;
 import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,14 +17,26 @@ public class MainActivity extends AppCompatActivity {
     private String mlocation;
     private final String FORECASTFRAGMENT_TAG = "FFTAG";
 
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
+    private boolean twoPane;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+       /* setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);*/
+        mlocation = Util.getPreferredLocation(this);
+        setContentView(R.layout.activity_main);
+        if (findViewById(R.id.weather_detail_container) != null){
+            twoPane = true;
 
-
+            if (savedInstanceState == null){
+                getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container, new DetalleActivityFragment(), DETAILFRAGMENT_TAG).commit();
+            }
+        }else {
+            twoPane = false;
+        }
 
 
     }
