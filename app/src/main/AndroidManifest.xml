@@ -6,19 +6,21 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <permission
+        android:name="com.example.LICENSE_TO_KILL"
+        android:label="Licended to Kill"
+        android:protectionLevel="dangerous" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
-          >
+            android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,8 +31,7 @@
             android:name=".Detalle.DetalleActivity"
             android:label="Mas Información"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            >
+            android:theme="@style/AppTheme.NoActionBar" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.manuelseguranavarro.sunshineproject.MainActivity" />
@@ -38,21 +39,35 @@
         <activity
             android:name=".Settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName=".MainActivity">
-
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.manuelseguranavarro.sunshineproject.MainActivity"/>
+                android:value="com.example.manuelseguranavarro.sunshineproject.MainActivity" />
         </activity>
-        <provider
-            android:authorities="com.example.manuelseguranavarro.sunshineproject.app"
-            android:name=".data.WeatherProvider"
-            android:enabled="true"
-            android:exported="true"/>
 
+        <provider
+            android:name=".data.WeatherProvider"
+            android:authorities="com.example.manuelseguranavarro.sunshineproject.app"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".service.SunshineService"
+            android:enabled="true" />
+        <service
+            android:name=".service.SunshineService$AlarmReceiver"
+            android:enabled="true" />
+
+        <activity
+            android:name=".sincronizar.Autenticator"
+            android:label="@string/title_activity_autenticator"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".sincronizar.SyncAdapter"
+            android:label="@string/title_activity_sync_adapter"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
-    <permission android:name="com.example.LICENSE_TO_KILL"
-            android:protectionLevel="dangerous"
-            android:label="Licended to Kill"></permission>
 
 </manifest>

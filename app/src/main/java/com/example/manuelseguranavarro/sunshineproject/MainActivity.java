@@ -9,10 +9,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivity;
 import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivityFragment;
 import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityFragment.Callback{
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private String mlocation;
     private final String FORECASTFRAGMENT_TAG = "FFTAG";
@@ -28,17 +29,24 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);*/
         mlocation = Util.getPreferredLocation(this);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_logo);
         if (findViewById(R.id.weather_detail_container) != null){
             twoPane = true;
 
             if (savedInstanceState == null){
-                getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container, new DetalleActivityFragment(), DETAILFRAGMENT_TAG).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.weather_detail_container,
+                        new DetalleActivityFragment()).commit();
             }
         }else {
             twoPane = false;
+            getSupportActionBar().setElevation(0f);
         }
 
-
+        MainActivityFragment mainActivityFragment = ((MainActivityFragment)getSupportFragmentManager().
+                findFragmentById(R.id.fragment));
+        mainActivityFragment.setUseTodayLayout(!twoPane);
     }
 
     @Override
@@ -69,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+
    private void preferenciasDelMapa(){
 
        String localizacion = Util.getPreferredLocation(this);
@@ -90,12 +100,45 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         String location = Util.getPreferredLocation( this );
         // update the location in our second pane using the fragment manager
-        if (location != null && !location.equals(mlocation)) {
+      /*  if (location != null && !location.equals(mlocation)) {
             MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager().findFragmentByTag(FORECASTFRAGMENT_TAG);
             if ( null != ff ) {
                 ff.onLocationChanged();
+            }*/
+        if (location != null && !location.equals(mlocation)) {
+            MainActivityFragment ff = (MainActivityFragment)getSupportFragmentManager().findFragmentById(R.id.fragment);
+            if ( null != ff ) {
+                ff.onLocationChanged();
             }
+            DetalleActivityFragment df = (DetalleActivityFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            if ( null != df ) {
+                df.onLocationChanged(location);
+            }
+
             mlocation = location;
+        }
+    }
+
+    @Override
+    public void onItemSelected(Uri contentUri) {
+        if (twoPane) {
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            Bundle args = new Bundle();
+            args.putParcelable(DetalleActivityFragment.DETAIL_URI, contentUri);
+
+            DetalleActivityFragment fragment = new DetalleActivityFragment();
+            fragment.setArguments(args);
+
+            //Sustituimos el DetalleActivityFragment que existe en el weather_detail_container.xml utilizando DETAILFRAGEMT_TAG
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.weather_detail_container, fragment, DETAILFRAGMENT_TAG)
+                    .commit();
+        } else {
+            Intent intent = new Intent(this, DetalleActivity.class)
+                    .setData(contentUri);
+            startActivity(intent);
         }
     }
 

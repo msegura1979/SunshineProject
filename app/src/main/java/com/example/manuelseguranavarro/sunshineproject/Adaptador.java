@@ -17,6 +17,7 @@ public class Adaptador extends CursorAdapter {
     private static final int VIEW_TYPE_TODAY =0;
     private static final int VIEW_TYPE_FUTURE_DAY = 1;
     private static final int VIEW_TYPE_COUNT = 1;
+    private boolean mUseTodayLayout;
 
     public static class ViewHolder {
         public final ImageView iconoView;
@@ -40,10 +41,14 @@ public class Adaptador extends CursorAdapter {
         super(context,c,flags);
     }
 
+    public void setUseTodayLayout(boolean useTodayLayout){
+        mUseTodayLayout = useTodayLayout;
+    }
+
     @Override
     public int getItemViewType (int posicion){
         //Si la posicion en la lista es 0 entonces nos dira que el View_type_today de lo contrario VIEW_TYPE_FUTURE_DAY
-        return (posicion == 0)?VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        return (posicion == 0 && mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override
@@ -62,6 +67,15 @@ public class Adaptador extends CursorAdapter {
         //Elegimos el tipo de vista segun la id
         if (tipoVista == VIEW_TYPE_TODAY){
             layoutId = R.layout.list_item_forecast_today;
+            //Segun la Hora cambiamos el fondo de color
+          /*  Date horaActual = new Date();
+            long hora = (horaActual.getTime());
+            if (hora >= 64800.000){
+                parent.setBackgroundColor(Color.parseColor("#63A9EB"));
+            }else{
+                parent.setBackgroundColor(Color.WHITE);
+            }*/
+            //Fin color de fondo
         }else if (tipoVista == VIEW_TYPE_FUTURE_DAY){
             layoutId = R.layout.list_item_forecast;
         }
@@ -74,19 +88,22 @@ public class Adaptador extends CursorAdapter {
 
     }
 
+    //Este metodo va a a hacer la distincion entre los dos tipos de vista la de Hoy y las futuras
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         int viewType = getItemViewType(cursor.getPosition());
 
+        //Aqui le indicamos que obtenga de los recurso la imagen art
         switch (viewType){
             case VIEW_TYPE_TODAY:{
                 viewHolder.iconoView.setImageResource(Util.getArtResourceForWeatherCondition(cursor.getInt(MainActivityFragment.COL_WEATHER_CONDITION_ID)));
                 break;
             }
+            //En este caso le indicamos que obtenga el icono
             case VIEW_TYPE_FUTURE_DAY:{
-                viewHolder.iconoView.setImageResource(Util.getArtResourceForWeatherCondition(cursor.getInt(MainActivityFragment.COL_WEATHER_CONDITION_ID)));
+                viewHolder.iconoView.setImageResource(Util.getIconResourceForWeatherCondition(cursor.getInt(MainActivityFragment.COL_WEATHER_CONDITION_ID)));
                 break;
             }
         }
@@ -110,6 +127,7 @@ public class Adaptador extends CursorAdapter {
         String descripcion = cursor.getString(MainActivityFragment.COL_WEATHER_DESC);
 
         viewHolder.descripcionView.setText(descripcion);
+        viewHolder.iconoView.setContentDescription(descripcion);
 
         //Leemos las preferencias de usuario si es metric o imperial
         boolean esMetric = Util.isMetric(context);

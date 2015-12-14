@@ -6,22 +6,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ShareActionProvider;
 
 import com.example.manuelseguranavarro.sunshineproject.R;
 import com.example.manuelseguranavarro.sunshineproject.Settings.SettingsActivity;
 
 public class DetalleActivity extends AppCompatActivity {
-
-    //Log para detectar errores
-    private static final String LOG_TAG = DetalleActivityFragment.class.getSimpleName();
-    //Hashtag compartido
-    private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
-    //Esta variable la convertimos en variable miembro
-    private String mForecastStr;
-    private ShareActionProvider mShareActionProvider;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +22,26 @@ public class DetalleActivity extends AppCompatActivity {
                     .add(R.id.container, new DetalleActivityFragment())
                     .commit();
         }*/
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //Leemos los datos de la uri del intent entrante
+        if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DetalleActivityFragment.DETAIL_URI, getIntent().getData());
+
+            DetalleActivityFragment fragment = new DetalleActivityFragment();
+            fragment.setArguments(arguments);
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.weather_detail_container, fragment)
+                    .commit();
+        }
+
 
     }
     @Override

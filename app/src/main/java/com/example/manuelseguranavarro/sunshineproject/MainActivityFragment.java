@@ -1,6 +1,9 @@
 package com.example.manuelseguranavarro.sunshineproject;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,9 +21,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.example.manuelseguranavarro.sunshineproject.Detalle.DetalleActivity;
 import com.example.manuelseguranavarro.sunshineproject.data.WeatherContract;
-import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherTask;
+import com.example.manuelseguranavarro.sunshineproject.service.SunshineService;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -28,8 +30,13 @@ import com.example.manuelseguranavarro.sunshineproject.sincronizar.FetchWeatherT
 public class MainActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = MainActivityFragment.class.getSimpleName();
+    private ListView mListView;
+    private int mPosition = ListView.INVALID_POSITION;
     public static final int FORECAST_LOADER = 0;
     private Adaptador mForecastAdapter;
+    private boolean mUseTodayLayout;
+
+    private static final String SELECTED_KEY = "selected_position";
 
 
 
@@ -63,7 +70,14 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
 
+    //Devolucion de llamada
+    public interface Callback {
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
 
+    }
 
     public MainActivityFragment() {
 
@@ -73,8 +87,6 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         super.onCreate(savedInstanceState);
         // Add this line in order for this fragment to handle menu events.
         setHasOptionsMenu(true);
-
-
 
     }
 
@@ -95,21 +107,26 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         }
         return super.onOptionsItemSelected(item);
     }
-
+    public void setUseTodayLayout(boolean useTodayLayout){
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null){
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
 
     @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
         mForecastAdapter = new Adaptador(getActivity(), null, 0);
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Get a reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -118,18 +135,29 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
                 // CursorAdapter returns a cursor at the correct position for getItem(), or null
                 // if it cannot seek to that position.
                 Cursor cursor = (Cursor) adapterView.getItemAtPosition(position);
-                if (cursor != null) {
-                    String locationSetting = Util.getPreferredLocation(getActivity());
-                    Intent intent = new Intent(getActivity(), DetalleActivity.class)
+                if (null != cursor && cursor.moveToPosition(position)) {
+                   // String locationSetting = Util.getPreferredLocation(getActivity());
+
+                    /*Intent intent = new Intent(getActivity(), DetalleActivity.class)
                             .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                            ));
-                    startActivity(intent);
+                                    locationSetting, cursor.getLong(COL_WEATHER_DATE)*/
+
+                    //En vez de realizar un intent realizamos Callback para notificar la devolucion de la llamada
+                    ((Callback) getActivity())
+                            .onItemSelected(Uri.parse(cursor.getString(COL_WEATHER_DATE)));
+                    // startActivity(intent);
                 }
+                mPosition = position;
             }
         });
+        //Si es eliminada podemos restaurar la posicion desde el paquete saveState en OnCreateView
+        if (savedInstanceState != null && savedInstanceState.containsKey(SELECTED_KEY)){
+
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
 
         return rootView;
+
     }
 
     @Override
@@ -145,12 +173,22 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     }
     //Metodo para actualizar los datos del tiempo segun el codigo que ponemos y que afecta a las preferencias
     private void ActualizaTiempo(){
-        FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
+        //Creamos un intent para recibir la alarma
+        Intent alarmintent = new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        alarmintent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, Util.getPreferredLocation(getActivity()));
+
+
+        //Tomamos el servicio de alarma y programamos la alarma para que se active en 5 segundos
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getActivity(),0,alarmintent,PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
+
+        /*FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
         //Realizamos que las preferencias se guarden por defecto o las indicadas por usuario.
         String guardarLocalizacion = Util.getPreferredLocation(getActivity());
         //SharedPreferences preferences = PreferenceManager .getDefaultSharedPreferences(getActivity());
        // String guardarLocalizacion = preferences.getString(getString(R.string.pref_localizacion_key),getString(R.string.pref_valor_defecto));
-        weatherTask.execute(guardarLocalizacion);
+        weatherTask.execute(guardarLocalizacion);*/
     }
     //Reescribimos onStart para que actualize la información cada vez que se inicia el fragmet
 //    @Override
@@ -158,6 +196,18 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
 //        super.onStart();
 //        ActualizaTiempo();
 //    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // When tablets rotate, the currently selected list item needs to be saved.
+        // When no item is selected, mPosition will be set to Listview.INVALID_POSITION,
+        // so check for that before storing.
+        if (mPosition != ListView.INVALID_POSITION) {
+            //Almacenamos la posicion en el paquete
+            outState.putInt(SELECTED_KEY, mPosition);
+        }
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -180,6 +230,9 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
+        if (mPosition != ListView.INVALID_POSITION){
+            mListView.setSelection(mPosition);
+        }
 
     }
 
@@ -188,13 +241,7 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         mForecastAdapter.swapCursor(null);
     }
 
-    public interface Callback {
-        /**
-         * DetailFragmentCallback for when an item has been selected.
-         */
-        public void onItemSelected(Uri dateUri);
 
-    }
 
 
 //    //Metodo AsynTask para realizar la ejecución en un hilo secundario

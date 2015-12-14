@@ -1,8 +1,10 @@
 package com.example.manuelseguranavarro.sunshineproject.sincronizar;
 
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -60,7 +62,7 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
 
         if (locationCursor.moveToFirst()) {
             int locationIdIndex = locationCursor.getColumnIndex(WeatherContract.LocationEntry._ID);
-            locationId = locationCursor.getLong(locationIdIndex);
+            return locationCursor.getLong(locationIdIndex);
         } else {
             // Now that the content provider is set up, inserting rows of data is pretty simple.
             // First create a ContentValues object to hold the data you want to insert.
@@ -76,17 +78,20 @@ public class FetchWeatherTask extends AsyncTask<String, Void, Void> {
             // Finally, insert location data into the database.
             Uri insertedUri = mContext.getContentResolver().insert(
                     WeatherContract.LocationEntry.CONTENT_URI,
-                    locationValues
-            );
+                    locationValues);
 
             // The resulting URI contains the ID for the row.  Extract the locationId from the Uri.
-            locationId = ContentUris.parseId(insertedUri);
+            return  ContentUris.parseId(insertedUri);
         }
 
-        locationCursor.close();
-        // Wait, that worked?  Yes!
-        return locationId;
+    }
 
+    static public class AlarmReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+        }
     }
 
 
