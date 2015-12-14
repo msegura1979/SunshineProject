@@ -183,19 +183,8 @@ public class MainActivityFragment extends Fragment implements LoaderManager.Load
         AlarmManager alarmManager = (AlarmManager)getActivity().getSystemService(Context.ALARM_SERVICE);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 5000, pendingIntent);
 
-        /*FetchWeatherTask weatherTask = new FetchWeatherTask(getActivity());
-        //Realizamos que las preferencias se guarden por defecto o las indicadas por usuario.
-        String guardarLocalizacion = Util.getPreferredLocation(getActivity());
-        //SharedPreferences preferences = PreferenceManager .getDefaultSharedPreferences(getActivity());
-       // String guardarLocalizacion = preferences.getString(getString(R.string.pref_localizacion_key),getString(R.string.pref_valor_defecto));
-        weatherTask.execute(guardarLocalizacion);*/
     }
-    //Reescribimos onStart para que actualize la información cada vez que se inicia el fragmet
-//    @Override
-//    public void onStart(){
-//        super.onStart();
-//        ActualizaTiempo();
-//    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
